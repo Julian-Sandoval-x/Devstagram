@@ -19,7 +19,7 @@
         </div>
 
         <div class="md:w-1/2 p-10 bg-white rounded-lg shadow-xl mt-10 md:mt-0">
-            <form action="{{ route('register') }}" method="POST" novalidate>
+            <form action="{{ route('posts.store') }}" method="POST" novalidate>
                 @csrf   
                 <div class="mb-5">
                     <label for="titulo" class="mb-2 block uppercase text-gray-500 font-bold">Titulo</label>
@@ -53,6 +53,17 @@
                         <p class="bg-red-500 text-white my-2 rounded-lg text-center p-2 text-sm">{{ $message }}</p>
                     @enderror
 
+                </div>
+
+                <div class="mb-5">
+                    <input 
+                        type="hidden"
+                        name="imagen"
+                        value="{{ old('imagen') }}"
+                    />
+                    @error('imagen')
+                        <p class="bg-red-500 text-white my-2 rounded-lg text-center p-2 text-sm">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <input type="submit" value="Publicar" 
