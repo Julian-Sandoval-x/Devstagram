@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\ImagenController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
@@ -18,8 +19,11 @@ Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'store']);
 Route::post('logout', [LogoutController::class, 'store'])->name('logout');
 
-Route::get('/{user:username}', [PostController::class, 'index'])->middleware('auth')->name('posts.index');
+Route::get('/{user:username}', [PostController::class, 'index'])->name('posts.index');
 Route::get('/posts/create', [PostController::class, 'create'])->middleware('auth')->name('posts.create');
-Route::post('/posts', [PostController::class, 'store'])->middleware('auth')->name('posts.store');
+Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+Route::get('/{user:username}/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+Route::post('/{user:username}/posts/{post}', [ComentarioController::class, 'store'])->name('comentarios.store');
+Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
-Route::post('/imagenes', [ImagenController::class, 'store'])->middleware('auth')->name('imagenes.store');
+Route::post('/imagenes', [ImagenController::class, 'store'])->name('imagenes.store');

@@ -11,8 +11,12 @@ class PostController extends Controller
     //
 
     public function index(User $user) {
+        
+        $posts = Post::where('user_id', $user->id)->Paginate(20);
+
         return view('dashboard', [
-            'user' => $user
+            'user' => $user,
+            'posts' => $posts
         ]);
     }
 
@@ -35,13 +39,32 @@ class PostController extends Controller
         // ]);
 
         // Otra manera de crear registros en la base de datos
-        $post = new Post();
-        $post->titulo = $request->titulo;
-        $post->descripcion = $request->descripcion;
-        $post->imagen = $request->imagen;
-        $post->user_id = auth()->user()->id;
-        $post->save();
+        // $post = new Post();
+        // $post->titulo = $request->titulo;
+        // $post->descripcion = $request->descripcion;
+        // $post->imagen = $request->imagen;
+        // $post->user_id = auth()->user()->id;
+        // $post->save();
+
+        // Otra manera de crear registros en la base de datos
+        $request->user()->posts()->create([
+            'titulo' => $request->titulo,
+            'descripcion' => $request->descripcion,
+            'imagen' => $request->imagen,
+            'user_id' => auth()->user()->id
+        ]);
 
         return redirect()->route('posts.index', auth()->user()->username);
+    }
+
+    public function show(User $user, Post $post) {
+        return view('posts.show', [
+            'user' => $user,
+            'post' => $post
+        ]);
+    }
+
+    public function destroy(Post $post) {
+        dd('Eliminando');
     }
 }

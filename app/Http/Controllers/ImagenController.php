@@ -20,7 +20,7 @@ class ImagenController extends Controller
 
         $imagen = $manager->decode($request->file('file'));
         
-        $imagen->scale(1000, 1000);
+        $imagen->resize(1000, 1000);
 
         $imagen->save(public_path('uploads/' . $nombreImagen));
 
